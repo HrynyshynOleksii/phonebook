@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
 </head>
 <body>
+<br>
+<div class="text-center">
+    <a class="btn btn-secondary" href="/add" role="button">Add contact</a>
+</div>
+
+
 <div class="container">
     <h2>PhoneBook</h2>
     <table class="table table-hover">
@@ -42,9 +48,10 @@
                             Options
                         </button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#">View</a>
-                            <a class="dropdown-item" href="'/' + ${elem.id} + '/edit'">Edit contact</a>
-                            <a class="dropdown-item" href=" ${elem.id} + '/remove'">Remove contact</a>
+                            <a class="dropdown-item" th:href="'/' + ${elem.id} + '/view'">View</a>
+                            <a class="dropdown-item" th:href="'/' + ${elem.id} + '/edit'">Edit contact</a>
+<!--                            <a class="dropdown-item" href=" ${elem.id} + '/remove'">Remove contact</a>-->
+                            <a class="dropdown-item" th:href=" ${elem.id} + '/remove'">Remove contact</a>
                         </div>
                     </div>
                 </td>

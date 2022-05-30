@@ -18,7 +18,7 @@ public class PhoneNumber {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 //    @Column(name = "id", nullable = false)
-    private int id;
+    private long id;
     private String fullName;
     private Long number;
     private String email;
@@ -27,8 +27,7 @@ public class PhoneNumber {
         this.id = id;
     }
 
-    public PhoneNumber(int id, String fullName, Long number, String email) {
-        this.id = id;
+    public PhoneNumber(String fullName, Long number, String email) {
         this.fullName = fullName;
         this.number = number;
         this.email = email;
