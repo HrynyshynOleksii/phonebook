@@ -5,6 +5,7 @@ import com.example.phonebookweb.repo.PhoneRepository;
 import com.example.phonebookweb.models.PhoneNumber;
 import com.sun.org.apache.xpath.internal.objects.XNumber;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +23,29 @@ public class MainControllers {
     private PhoneRepository phoneRepository;
 
     @GetMapping("/index")
-    public String PhoneBookList(Model model,Long id){
+    public String phoneBookList(Model model,Long id){
 
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll();
         model.addAttribute("contact", phoneNumbers);
         return "index";
+    }
 
+    @GetMapping("/sortByName")
+    public String sortByName (Model model,Long id){
 
+        Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll(Sort.by(Sort.Direction.ASC, "fullName"));
+        model.addAttribute("contact", phoneNumbers);
+
+        return "/index";
+    }
+
+    @GetMapping("/sortByEmail")
+    public String sortByEmail (Model model,Long id){
+
+        Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll(Sort.by(Sort.Direction.ASC, "email"));
+        model.addAttribute("contact", phoneNumbers);
+
+        return "/index";
     }
 
     @GetMapping("/{id}/remove")
