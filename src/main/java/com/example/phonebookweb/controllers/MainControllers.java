@@ -3,7 +3,7 @@ package com.example.phonebookweb.controllers;
 
 import com.example.phonebookweb.repo.PhoneRepository;
 import com.example.phonebookweb.models.PhoneNumber;
-import com.sun.org.apache.xpath.internal.objects.XNumber;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class MainControllers {
     private PhoneRepository phoneRepository;
 
     @GetMapping("/index")
-    public String phoneBookList(Model model,Long id){
+    public String phoneBookList(Model model, Long id) {
 
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll();
         model.addAttribute("contact", phoneNumbers);
@@ -31,7 +31,7 @@ public class MainControllers {
     }
 
     @GetMapping("/sortByName")
-    public String sortByName (Model model,Long id){
+    public String sortByName(Model model, Long id) {
 
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll(Sort.by(Sort.Direction.ASC, "fullName"));
         model.addAttribute("contact", phoneNumbers);
@@ -40,7 +40,7 @@ public class MainControllers {
     }
 
     @GetMapping("/sortByEmail")
-    public String sortByEmail (Model model,Long id){
+    public String sortByEmail(Model model, Long id) {
 
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll(Sort.by(Sort.Direction.ASC, "email"));
         model.addAttribute("contact", phoneNumbers);
@@ -73,16 +73,35 @@ public class MainControllers {
         return "view-contact";
     }
 
+    @GetMapping("/{id}/edit")
+    public String contactEdit(@PathVariable(value = "id") long id, Model model) {
+        if (!phoneRepository.existsById(id)) {
+            return "redirect:/index";
+        }
+        Optional<PhoneNumber> phoneNumber = phoneRepository.findById(id);
+        ArrayList<PhoneNumber> res = new ArrayList<>();
+        phoneNumber.ifPresent(res::add);
+        model.addAttribute("contact", res);
+        return "edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String contactSaveUpdate(@PathVariable(value = "id") long id, @RequestParam String fullName, @RequestParam String email, @RequestParam Long number, Model model) {
+        PhoneNumber phoneNumber = phoneRepository.findById(id).orElseThrow(null);
+        phoneNumber.setFullName(fullName);
+        phoneNumber.setEmail(email);
+        phoneNumber.setNumber(number);
+        phoneRepository.save(phoneNumber);
+        return "redirect:/index";
+    }
+
     @GetMapping("/add")
-    public String addContact ( Model model){
+    public String addContact(Model model) {
         return "add";
     }
 
     @PostMapping("/add")
-    public String saveContact (@RequestParam String fullName,
-                              @RequestParam Long number,
-                              @RequestParam String email,
-                              Model model){
+    public String saveContact(@RequestParam String fullName, @RequestParam Long number, @RequestParam String email, Model model) {
         PhoneNumber phoneNumber = new PhoneNumber(fullName, number, email);
         phoneRepository.save(phoneNumber);
 
