@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<table class="table">
+  <tr>
+    <td></td>
+    <td>Первая строка</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Вторая строка</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Третья строка</td>
+  </tr>
+</table>
+<script>
+  $('.table tbody tr').each(function(i) {
+    var number = i + 1;
+    $(this).find('td:first').text(number+".");
+  });
+</script>
+
+</body>
+</html>

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -23,14 +25,17 @@ public class PhoneNumber {
     private Long number;
     private String email;
 
+    private LocalDateTime time;
+
     public PhoneNumber(int id) {
         this.id = id;
     }
 
-    public PhoneNumber(String fullName, Long number, String email) {
+    public PhoneNumber(String fullName, Long number, String email, LocalDateTime time) {
         this.fullName = fullName;
         this.number = number;
         this.email = email;
+        this.time = LocalDateTime.now();
     }
 
     public PhoneNumber() {

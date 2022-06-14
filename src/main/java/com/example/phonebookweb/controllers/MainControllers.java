@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class MainControllers {
     @Autowired
     private PhoneRepository phoneRepository;
 
-    @GetMapping("/index")
+    @GetMapping({"/index", "/"})
     public String phoneBookList(Model model, Long id) {
 
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll();
@@ -44,7 +45,6 @@ public class MainControllers {
 
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll(Sort.by(Sort.Direction.ASC, "email"));
         model.addAttribute("contact", phoneNumbers);
-
         return "/index";
     }
 
@@ -56,7 +56,7 @@ public class MainControllers {
 
         PhoneNumber phoneNumber = phoneRepository.findById(id).orElseThrow(null);
         phoneRepository.delete(phoneNumber);
-        System.out.println(phoneNumber.getId());
+
         return "redirect:/index";
     }
 
@@ -69,7 +69,6 @@ public class MainControllers {
         ArrayList<PhoneNumber> res = new ArrayList<>();
         phoneNumber.ifPresent(res::add);
         model.addAttribute("contact", res);
-
         return "view-contact";
     }
 
@@ -86,23 +85,32 @@ public class MainControllers {
     }
 
     @PostMapping("/{id}/edit")
-    public String contactSaveUpdate(@PathVariable(value = "id") long id, @RequestParam String fullName, @RequestParam String email, @RequestParam Long number, Model model) {
+    public String contactSaveUpdate(@PathVariable(value = "id") long id, @RequestParam String fullName, @RequestParam String email, @RequestParam Long number, LocalDateTime time, Model model) {
+
         PhoneNumber phoneNumber = phoneRepository.findById(id).orElseThrow(null);
         phoneNumber.setFullName(fullName);
         phoneNumber.setEmail(email);
         phoneNumber.setNumber(number);
+        phoneNumber.setTime(LocalDateTime.now());
         phoneRepository.save(phoneNumber);
+
         return "redirect:/index";
     }
 
     @GetMapping("/add")
     public String addContact(Model model) {
         return "add";
+
     }
 
     @PostMapping("/add")
-    public String saveContact(@RequestParam String fullName, @RequestParam Long number, @RequestParam String email, Model model) {
-        PhoneNumber phoneNumber = new PhoneNumber(fullName, number, email);
+    public String saveContact(@RequestParam String fullName,
+                              @RequestParam Long number,
+                              @RequestParam String email,
+                              LocalDateTime time,
+                              Model model) {
+        System.out.println(fullName);
+        PhoneNumber phoneNumber = new PhoneNumber(fullName, number, email, time);
         phoneRepository.save(phoneNumber);
 
         return "redirect:/index";
