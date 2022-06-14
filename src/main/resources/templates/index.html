@@ -22,11 +22,12 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Id</th>
+            <th>#</th>
+<!--            <th>Id</th>-->
             <th><a href="/sortByName" >Full Name</a></th>
             <th><a href="/sortByEmail" >Email</a></th>
             <th>Phone number</th>
-            <th>Time</th>
+            <th>Last Modified</th>
             <th>        Options</th>
         </tr>
         </thead>
@@ -37,8 +38,8 @@
         <div th:each="elem : ${contact}">
 
             <tr>
-
-                <td th:text="${ elem.id}"></td>
+                <td></td>
+<!--                <td th:text="${ elem.id}"></td>-->
                 <td th:text="${elem.fullName }"></td>
                 <td th:text="${elem.email }"></td>
                 <td th:text="${elem.number }"></td>
@@ -70,7 +71,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
-
+    <script>
+        $('.table tbody tr').each(function(i) {
+            var number = i + 1;
+            $(this).find('td:first').text(number+".");
+        });
+    </script>
 </body>
 
 </html>
