@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="utf-8">
     <title>PhoneBook</title>
@@ -9,16 +9,23 @@
 <body>
 <br>
 
+
+
+
 <div class="text-right">
     <form th:action="@{/logout}" method="post">
         <a class="btn btn-secondary" href="/add" role="button">Add contact</a>
         <button type="submit" class="btn btn-secondary">Log out</button>
     </form>
 </div>
+<h4><span th:text= "'Hello, ' + ${#authentication.getPrincipal().getUsername()}"></span></h4>
+
+
 
 
 <div class="container">
     <h2>PhoneBook</h2>
+
     <table class="table table-hover">
         <thead>
         <tr>
@@ -27,7 +34,7 @@
             <th><a href="/sortByName" >Full Name</a></th>
             <th><a href="/sortByEmail" >Email</a></th>
             <th>Phone number</th>
-            <th>Last Modified</th>
+            <th><a href="/sortByTime" >Last Modified</a></th>
             <th>        Options</th>
         </tr>
         </thead>

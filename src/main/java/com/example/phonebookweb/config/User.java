@@ -21,12 +21,21 @@ public class User {
     private String username;
     private String password;
     private boolean active;
+    @Transient
+    private String confirmPassword;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    public User (String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+    public User(){
+
+    }
 
 
 }

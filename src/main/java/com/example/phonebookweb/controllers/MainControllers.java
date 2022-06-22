@@ -1,11 +1,14 @@
 package com.example.phonebookweb.controllers;
 
 
+import com.example.phonebookweb.config.User;
 import com.example.phonebookweb.repo.PhoneRepository;
 import com.example.phonebookweb.models.PhoneNumber;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +27,17 @@ public class MainControllers {
     private PhoneRepository phoneRepository;
 
     @GetMapping({"/index", "/"})
-    public String phoneBookList(Model model, Long id) {
+    public String phoneBookList(String name, Model model, Long id) {
 
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll();
         model.addAttribute("contact", phoneNumbers);
+
+//       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String username = user.getUsername();
+
+
+//        model.addAttribute ("username", username);
+
         return "index";
     }
 
@@ -46,6 +56,15 @@ public class MainControllers {
         Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll(Sort.by(Sort.Direction.ASC, "email"));
         model.addAttribute("contact", phoneNumbers);
         return "/index";
+    }
+
+    @GetMapping("/sortByTime")
+    public String sortByTime(Model model, Long id) {
+
+        Iterable<PhoneNumber> phoneNumbers = phoneRepository.findAll(Sort.by(Sort.Direction.DESC, "time"));
+        model.addAttribute("contact", phoneNumbers);
+
+        return "redirect:/index";
     }
 
     @GetMapping("/{id}/remove")
@@ -85,7 +104,7 @@ public class MainControllers {
     }
 
     @PostMapping("/{id}/edit")
-    public String contactSaveUpdate(@PathVariable(value = "id") long id, @RequestParam String fullName, @RequestParam String email, @RequestParam Long number, LocalDateTime time, Model model) {
+    public String contactSaveUpdate(@PathVariable(value = "id") long id, @RequestParam String fullName, @RequestParam String email, @RequestParam Long number, Model model) {
 
         PhoneNumber phoneNumber = phoneRepository.findById(id).orElseThrow(null);
         phoneNumber.setFullName(fullName);
@@ -110,7 +129,7 @@ public class MainControllers {
                               LocalDateTime time,
                               Model model) {
         System.out.println(fullName);
-        PhoneNumber phoneNumber = new PhoneNumber(fullName, number, email, time);
+        PhoneNumber phoneNumber = new PhoneNumber(fullName, number, email);
         phoneRepository.save(phoneNumber);
 
         return "redirect:/index";

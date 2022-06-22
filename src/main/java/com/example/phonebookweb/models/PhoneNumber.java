@@ -31,7 +31,7 @@ public class PhoneNumber {
         this.id = id;
     }
 
-    public PhoneNumber(String fullName, Long number, String email, LocalDateTime time) {
+    public PhoneNumber(String fullName, Long number, String email) {
         this.fullName = fullName;
         this.number = number;
         this.email = email;
