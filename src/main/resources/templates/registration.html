@@ -30,19 +30,33 @@
 			<label class="form-label" for="username">User name</label>
 			<input type="text" name="username" id="username" placeholder="Enter username" class="form-control"/>
 
+				<div
+						th:utext="${errorUsername}" style="color:#ff0000;font-style:italic;">
+				</div>
 		</div>
 
 		<!-- Password input -->
 		<div class="form-outline mb-4">
 			<label class="form-label" for="password">Password</label>
 			<input type="password" name="password" id="password" placeholder="Enter password" class="form-control"/>
+			<div
+					th:utext="${errorPassword}" style="color:#ff0000;font-style:italic;">
+			</div>
+			<div
+					th:utext="${passDismatch}" style="color:#ff0000;font-style:italic;">
+			</div>
 
 		</div>
 
 		<div class="form-outline mb-4">
 			<label class="form-label" for="confirmPassword">Repeat password</label>
 			<input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repeat password" class="form-control"/>
-
+			<div
+					th:utext="${errorPassword}" style="color:#ff0000;font-style:italic;">
+			</div>
+			<div
+					th:utext="${passDismatch}" style="color:#ff0000;font-style:italic;">
+			</div>
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-block mb-4">Add user</button>
@@ -50,6 +64,8 @@
 		<!-- Register buttons -->
 
 	</form>
+
+
 </div>
 
 

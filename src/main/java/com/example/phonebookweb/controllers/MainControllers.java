@@ -6,6 +6,7 @@ import com.example.phonebookweb.repo.PhoneRepository;
 import com.example.phonebookweb.models.PhoneNumber;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,8 @@ public class MainControllers {
 
     @Autowired
     private PhoneRepository phoneRepository;
+
+
 
     @GetMapping({"/index", "/"})
     public String phoneBookList(String name, Model model, Long id) {

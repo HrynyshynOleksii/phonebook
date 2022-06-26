@@ -4,17 +4,20 @@ import com.example.phonebookweb.config.Role;
 import com.example.phonebookweb.config.User;
 import com.example.phonebookweb.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.CollationElementIterator;
+//import java.text.CollationElementIterator;
 import java.util.Collections;
 import java.util.Map;
 
 @Controller
 public class RegistController {
+
+
     @Autowired
     private UserRepository userRepository;
 
@@ -28,12 +31,24 @@ public class RegistController {
                           @RequestParam String username,
                           @RequestParam String password, @RequestParam String confirmPassword) {
 
-        if (!password.equals(confirmPassword)){
-            model.put("message", "Паролі не співпадають");
+
+        if (username.length()==0){
+            model.put("errorUsername", "Username is required!");
             return "/registration";
         }
-        if (password.length()==0){
-            model.put("message", "Field (Password) can't be empty! ");
+
+        if (password.length() < 4 || confirmPassword.length() < 4 ){
+            model.put("errorPassword", "Password must be at least 4 characters!");
+            return "/registration";
+        }
+//
+//        if (!password.equals(confirmPassword)){
+//            model.put("passDismatch", passDismatch);
+//            return "/registration";
+//        }
+
+        if (!password.equals(confirmPassword)){
+            model.put("passDismatch", "Fields do not match");
             return "/registration";
         }
 
